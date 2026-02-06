@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emulador Android Web</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 1200px;
+            width: 100%;
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .content {
+            padding: 40px;
+        }
+        .emulator-frame {
+            width: 100%;
+            height: 700px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            background: #000;
+        }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .tab {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        .tab:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+        .tab.active {
+            background: #764ba2;
+        }
+        .info-box {
+            background: #f0f7ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .info-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .info-box ul {
+            margin-left: 20px;
+        }
+        .info-box li {
+            margin: 8px 0;
+        }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8em; }
+            .content { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Emulador Android Web</h1>
+            <p>Ejecuta aplicaciones Android directamente en tu navegador</p>
+        </div>
+        
+        <div class="content">
+            <div class="tabs">
+                <button class="tab active" onclick="loadEmulator('webvm')">WebVM Android</button>
+                <button class="tab" onclick="loadEmulator('waydroid')">Waydroid Web</button>
+                <button class="tab" onclick="loadEmulator('v86')">Android x86</button>
+            </div>
+            
+            <iframe id="emulator" class="emulator-frame" src="about:blank"></iframe>
+            
+            <div class="info-box">
+                <h3>📱 Instrucciones de Uso:</h3>
+                <ul>
+                    <li><strong>WebVM Android:</strong> Android completo en navegador (puede tardar en cargar)</li>
+                    <li><strong>Waydroid Web:</strong> Versión ligera de Android</li>
+                    <li><strong>Android x86:</strong> Emulador clásico con soporte APK</li>
+                    <li>Usa el mouse como pantalla táctil</li>
+                    <li>Espera a que el sistema arranque (1-2 minutos)</li>
+                </ul>
+            </div>
+            
+            <div class="info-box">
+                <h3>⚠️ Limitaciones:</h3>
+                <ul>
+                    <li>No incluye Google Play Store por defecto</li>
+                    <li>Juegos 3D pesados pueden no funcionar bien</li>
+                    <li>Se reinicia al cerrar la página</li>
+                    <li>Algunos emuladores pueden requerir configuración adicional</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const emulatorUrls = {
+            'webvm': 'https://webvm.io',
+            'waydroid': 'https://bellard.org/jslinux/vm.html?url=alpine-x86.cfg&mem=192',
+            'v86': 'https://copy.sh/v86/?profile=android'
+        };
+        
+        function loadEmulator(type) {
+            const iframe = document.getElementById('emulator');
+            iframe.src = emulatorUrls[type];
+            
+            // Actualizar tabs activos
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+        
+        // Cargar emulador por defecto
+        window.onload = () => {
+            loadEmulator('v86');
+        };
+    </script>
+</body>
+</html>
