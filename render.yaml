@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: android-emulator
-    env: docker
-    plan: free
-    healthCheckPath: /
-    envVars:
-      - key: PORT
-        value: 6080
